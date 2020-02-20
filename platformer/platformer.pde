@@ -6,12 +6,15 @@ color orange = #FF9E00;
 int gridSize = 50;
 boolean upKey, downKey, leftKey, rightKey, spaceKey, canJump;
 int vx, vy;
+float cameraX,cameraY;
 FWorld world;
 FBox player;
 FBomb bomb = null;
 ArrayList<FContact> playerC;
 ArrayList<FBox> boxes;
 void setup() {
+  cameraX = 0;
+  cameraY = 0;
   size(800, 600);
   Fisica.init(this);
   world = new FWorld(-100, -100, 10000, 10000);
@@ -47,7 +50,7 @@ void setup() {
 void draw() {
   background(255);
   pushMatrix();
-  translate(-player.getX() + width/2,-player.getY() + height/2);
+  translate(-player.getX() + width/2 + cameraX,-player.getY() + height/2 + 100);
   world.step();
   world.draw();
   popMatrix();
@@ -57,8 +60,28 @@ void draw() {
 void updatePlayer() {
   canJump = false;
   vx = 0;
-  if (leftKey)vx=-300;
-  if (rightKey)vx=300;
+  if (leftKey){
+    vx=-300;
+    
+      if(cameraX>vx/6){
+      cameraX-=3;
+      }
+
+  }else{
+    if(cameraX < 0){
+      cameraX+=3;
+    }
+  }
+  if (rightKey){
+    vx=300;
+      if(cameraX<vx/6){
+      cameraX+=3;
+      }
+  }else{
+    if(cameraX > 0){
+      cameraX-=3;
+    }
+  }
   player.setVelocity(vx, player.getVelocityY());
 
   playerC = player.getContacts();

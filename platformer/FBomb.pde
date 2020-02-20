@@ -25,8 +25,8 @@ class FBomb extends FBox{
       if(dist(this.getX(),this.getY(),b.getX(),b.getY()) < 500){
         b.setStatic(false);
         bomb = null;
-        float vx = this.getX() - b.getX();
-        float vy = this.getY() - b.getY();
+        float vx = -1*(this.getX() - b.getX());
+        float vy = -1*(this.getY() - b.getY());
         b.setVelocity(vx,vy);
       }
     }
